@@ -25,6 +25,7 @@ function setup_window()
         fullscreen = false  -- Do not start in fullscreen
     })
     
+    love.graphics.setBackgroundColor(0.678, 0.847, 0.902)
     love.window.setTitle("Flappy Bird")
 end
 
@@ -54,11 +55,11 @@ function love.update(dt)
         table.insert(pipes, new_pipe)
     end
 
-    -- Update pipes
-    for i = 1, #pipes do
+    -- Update pipes iterating in reverse order so not to change indexes
+    for i = #pipes, 1, -1 do
         pipes[i]:move(dt)
-        local pipe = pipes[i]
 
+        local pipe = pipes[i]
         -- Top
         if rectangle_collision({player.x, player.y, 48, 48}, {pipe.x, pipe.top[1], pipe.width, pipe.top[2]}) then
             player.alive = false
@@ -73,8 +74,12 @@ function love.update(dt)
         if rectangle_collision({player.x + (48 * 0.5), player.y, 2, 48}, {pipe.x + (pipe.width * 0.5), pipe.top[2], 1, pipe.btm[1]-(pipe.top[1] + pipe.top[2])}) then
             score = score + 1
         end
-    end
 
+        -- Delete pipe
+        if pipe.x < -pipe.width then
+            table.remove(pipes, 1)
+        end
+    end
 end
 
 function love.draw(dt)  

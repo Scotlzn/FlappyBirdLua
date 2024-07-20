@@ -29,7 +29,7 @@ function Pipe:move(dt)
 end
 
 function Pipe:render()
-    love.graphics.setColor(0, 0, 1, 1)
+    love.graphics.setColor(0, 0.8, 0, 1)
     love.graphics.rectangle("fill", self.x, self.top[1], self.width, self.top[2])
     love.graphics.rectangle("fill", self.x, self.btm[1], self.width, self.btm[2])
     love.graphics.setColor(1, 1, 1, 1)
